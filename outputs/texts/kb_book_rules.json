@@ -1,0 +1,286 @@
+{
+ "source": "WELLNESSHUB4/Book.md",
+ "prevention_index": {
+  "do_not_smoke": {
+   "score": 9.8,
+   "tier": "critical"
+  },
+  "wear_seat_belt": {
+   "score": 9.2,
+   "tier": "critical"
+  },
+  "avoid_drinking_and_driving": {
+   "score": 9.0,
+   "tier": "critical"
+  },
+  "socialize_regularly": {
+   "score": 8.3,
+   "tier": "high"
+  },
+  "regular_strenuous_activity": {
+   "score": 8.2,
+   "tier": "high"
+  },
+  "alcohol_in_moderation": {
+   "score": 8.2,
+   "tier": "high"
+  },
+  "limit_dietary_fat": {
+   "score": 7.8,
+   "tier": "high"
+  },
+  "maintain_healthy_weight": {
+   "score": 7.7,
+   "tier": "high"
+  },
+  "do_not_speed": {
+   "score": 7.7,
+   "tier": "high"
+  },
+  "monitor_bp_control_stress": {
+   "score": 7.6,
+   "tier": "medium"
+  },
+  "fibre_up_cholesterol_down": {
+   "score": 7.3,
+   "tier": "medium"
+  },
+  "adequate_nutrition": {
+   "score": 7.1,
+   "tier": "medium"
+  },
+  "limit_salt_and_sugar": {
+   "score": 7.0,
+   "tier": "medium"
+  },
+  "sleep_7_to_8_hours": {
+   "score": 6.7,
+   "tier": "medium"
+  }
+ },
+ "wellness_scoring": {
+  "response_points": {
+   "always": 10,
+   "often": 7,
+   "sometimes": 5,
+   "rarely": 3,
+   "never": 0
+  },
+  "bands": [
+   [
+    86,
+    100,
+    "excellent"
+   ],
+   [
+    70,
+    85,
+    "good"
+   ],
+   [
+    50,
+    69,
+    "average"
+   ],
+   [
+    30,
+    49,
+    "below_average"
+   ],
+   [
+    0,
+    29,
+    "poor"
+   ]
+  ],
+  "domains": [
+   "physical",
+   "nutritional",
+   "social_emotional",
+   "psychological",
+   "intellectual_occupational"
+  ]
+ },
+ "food_servings": {
+  "14-18|female": {
+   "veg_fruit": [
+    7,
+    7
+   ],
+   "grain": [
+    6,
+    6
+   ],
+   "dairy": [
+    3,
+    4
+   ],
+   "meat": [
+    2,
+    2
+   ]
+  },
+  "14-18|male": {
+   "veg_fruit": [
+    8,
+    8
+   ],
+   "grain": [
+    7,
+    7
+   ],
+   "dairy": [
+    3,
+    4
+   ],
+   "meat": [
+    3,
+    3
+   ]
+  },
+  "19-50|female": {
+   "veg_fruit": [
+    7,
+    8
+   ],
+   "grain": [
+    6,
+    7
+   ],
+   "dairy": [
+    2,
+    2
+   ],
+   "meat": [
+    2,
+    2
+   ]
+  },
+  "19-50|male": {
+   "veg_fruit": [
+    8,
+    10
+   ],
+   "grain": [
+    8,
+    8
+   ],
+   "dairy": [
+    2,
+    2
+   ],
+   "meat": [
+    3,
+    3
+   ]
+  },
+  "51+|female": {
+   "veg_fruit": [
+    7,
+    7
+   ],
+   "grain": [
+    6,
+    6
+   ],
+   "dairy": [
+    3,
+    3
+   ],
+   "meat": [
+    2,
+    2
+   ]
+  },
+  "51+|male": {
+   "veg_fruit": [
+    7,
+    7
+   ],
+   "grain": [
+    7,
+    7
+   ],
+   "dairy": [
+    3,
+    3
+   ],
+   "meat": [
+    3,
+    3
+   ]
+  }
+ },
+ "calories": {
+  "18-35|male|inactive": 2500,
+  "18-35|male|very_active": 3500,
+  "18-35|female|inactive": 2000,
+  "18-35|female|very_active": 2500
+ },
+ "calories_gap": "book states the pattern continues but does not give values",
+ "activity": {
+  "moderate_min_per_session": 30,
+  "moderate_days_per_week": 5,
+  "vigorous_min_per_session": 20,
+  "vigorous_days_per_week": 3,
+  "endurance_days": [
+   4,
+   7
+  ],
+  "flexibility_days": [
+   4,
+   7
+  ],
+  "strength_days": [
+   2,
+   4
+  ]
+ },
+ "sleep_hours": [
+  7,
+  8
+ ],
+ "water_cups": [
+  6,
+  8
+ ],
+ "safe_weight_loss_kg_per_week": [
+  0.45,
+  0.9
+ ],
+ "adherence_factors": {
+  "predisposing": [
+   "knowledge_of_benefits",
+   "value_placed_on_outcomes",
+   "medical_professional_suggestion"
+  ],
+  "enabling": [
+   "activity_proficiency",
+   "facility_access",
+   "fitness_level",
+   "repertoire_of_comfortable_activities"
+  ],
+  "reinforcing": [
+   "training_partner",
+   "supportive_partner",
+   "peer_comments",
+   "medical_support",
+   "progress_acknowledgment"
+  ]
+ },
+ "referral_triggers": [
+  "chest_pain_during_exercise",
+  "persistent_high_resting_hr",
+  "unexplained_weight_change",
+  "chronic_insomnia",
+  "chronic_stress_symptoms",
+  "suspected_depression",
+  "chronic_lower_back_pain"
+ ],
+ "exercise_cautions": [
+  "start_slowly_progress_gradually",
+  "do_not_increase_too_fast",
+  "rest_when_unwell",
+  "stop_on_sharp_pain"
+ ]
+}

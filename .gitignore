@@ -1,0 +1,29 @@
+# data (fetched by make data, not redistributed here)
+/GYM.csv
+/nhanes_data/
+/multidataset/raw/
+/multidataset/candidates.json
+
+# credentials, never commit
+kaggle.json
+.kaggle/
+.env
+*.token
+
+# python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.ipynb_checkpoints/
+
+# latex build artifacts
+*.aux
+*.log
+*.out
+*.bbl
+*.blg
+*.synctex.gz
+
+# os
+.DS_Store

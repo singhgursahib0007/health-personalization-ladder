@@ -1,0 +1,47 @@
+EXPERIMENT 5: WHAT IS EACH RUNG OF THE LADDER WORTH?
+Forward-chained, features strictly causal, two model families
+==================================================================================
+
+LIFESNAPS / steps   (4493 person-days, 70 people)
+  rung                              ridge R2    gbm R2   ridge MAE
+  ----------------------------------------------------------------
+  L0 population constant             -0.0131   -0.0131      4122.1
+  L1 demographics (the book)         -0.0173   -0.0188      4133.4
+  L2 + body measurements             -0.0168   -0.0525      4132.6
+  L3 + own behaviour history         +0.2261   +0.1584      3456.5
+  L4 + yesterday's context           +0.2292   +0.1742      3453.6
+
+LIFESNAPS / very_active_minutes   (4493 person-days, 70 people)
+  rung                              ridge R2    gbm R2   ridge MAE
+  ----------------------------------------------------------------
+  L0 population constant             -0.0132   -0.0132        21.8
+  L1 demographics (the book)         +0.0163   +0.0161        21.4
+  L2 + body measurements             +0.0180   -0.0260        21.4
+  L3 + own behaviour history         +0.2039   +0.1522        18.1
+  L4 + yesterday's context           +0.2047   +0.1746        18.1
+
+MOBIUS / steps   (757 person-days, 32 people)
+  rung                              ridge R2    gbm R2   ridge MAE
+  ----------------------------------------------------------------
+  L0 population constant             -0.0040   -0.0040      3738.8
+  L3 + own behaviour history         +0.3396   +0.1656      2808.5
+  L4 + yesterday's context           +0.3396   +0.1656      2808.5
+
+MOBIUS / very_active_minutes   (757 person-days, 32 people)
+  rung                              ridge R2    gbm R2   ridge MAE
+  ----------------------------------------------------------------
+  L0 population constant             -0.0093   -0.0093        24.4
+  L3 + own behaviour history         +0.4008   +0.2261        16.8
+  L4 + yesterday's context           +0.4008   +0.2261        16.8
+
+==================================================================================
+HEADLINE (LifeSnaps, next-day steps, ridge)
+  L0 population constant     : -0.0131
+  L1 demographics            : -0.0173
+  L2 + body measurements     : -0.0168
+  L3 + own history           : +0.2261
+  L4 + context               : +0.2292
+
+  gain from L1 to L2 (body)   : +0.0004
+  gain from L2 to L3 (logs)   : +0.2429
+  gain from L3 to L4 (sensing): +0.0032

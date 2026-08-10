@@ -1,0 +1,54 @@
+EXPERIMENT 4: IS A PERSON A STABLE THING?
+LifeSnaps, one-way random-effects ICC, cluster bootstrap over people
+====================================================================================
+
+NON-WEAR FILTER
+  rows before                       : 7,410
+  missing step count                : 2,633
+  exactly 1440 sedentary minutes    : 2,329
+  both together                     : 2,256
+  literal zero-step days            : 86
+  rows removed                      : 2,706 (36.52%)
+  rows kept                         : 4,704 across 71 people
+
+INTRACLASS CORRELATION  (share of variance that is BETWEEN people)
+variable                    kind            ICC            95% CI   sd_betw  sd_within
+--------------------------------------------------------------------------------------
+minutesAsleep               behaviour     0.202    [0.141, 0.249]      43.3       86.1
+very_active_minutes         behaviour     0.226    [0.175, 0.282]      14.9       27.5
+moderately_active_minutes   behaviour     0.232    [0.124, 0.350]      12.8       23.3
+stress_score                physiology    0.265    [0.155, 0.372]      14.4       24.1
+steps                       behaviour     0.288    [0.173, 0.397]    2919.3     4590.0
+spo2                        physiology    0.324    [0.166, 0.439]       0.6        0.9
+sedentary_minutes           behaviour     0.408    [0.290, 0.494]     170.2      205.2
+nightly_temperature         physiology    0.438    [0.337, 0.529]       0.6        0.6
+calories                    behaviour     0.571    [0.467, 0.647]     520.6      451.5
+rmssd                       physiology    0.708    [0.532, 0.823]      18.2       11.7
+sleep_efficiency            physiology    0.785    [0.212, 0.892]       5.7        3.0
+resting_hr                  physiology    0.866    [0.811, 0.898]       6.8        2.7
+
+WHERE THE REST OF THE VARIANCE LIVES  (in-sample R2)
+variable                       person     +dow    +lag1  +trail7
+------------------------------------------------------------------
+steps                           0.294    0.310    0.226    0.246
+very_active_minutes             0.234    0.243    0.068    0.173
+moderately_active_minutes       0.239    0.263    0.103    0.152
+sedentary_minutes               0.411    0.415    0.366    0.363
+calories                        0.572    0.580    0.540    0.566
+minutesAsleep                   0.211    0.215   -0.010    0.100
+sleep_efficiency                0.785    0.785    0.751    0.763
+resting_hr                      0.866    0.866    0.948    0.908
+rmssd                           0.706    0.709    0.713    0.688
+spo2                            0.326    0.327    0.217    0.242
+stress_score                    0.271    0.280    0.196    0.181
+nightly_temperature             0.442    0.444    0.370    0.384
+
+====================================================================================
+HEADLINE
+  median ICC, BEHAVIOUR   : 0.260
+  median ICC, PHYSIOLOGY  : 0.573
+
+  A static profile, however rich, is bounded by the between-person
+  share. For behaviour that ceiling is about 26 percent of the variance;
+  the remaining 74 percent is within-person, which is to say it is
+  which day it is, and it is unreachable from any onboarding form.

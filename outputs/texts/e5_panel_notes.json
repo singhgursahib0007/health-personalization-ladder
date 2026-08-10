@@ -1,0 +1,22 @@
+{
+ "lifesnaps_steps": {
+  "n_person_days": 4493,
+  "n_people": 70,
+  "median_days_per_person": 61.5
+ },
+ "lifesnaps_very_active_minutes": {
+  "n_person_days": 4493,
+  "n_people": 70,
+  "median_days_per_person": 61.5
+ },
+ "mobius_steps": {
+  "n_person_days": 757,
+  "n_people": 32,
+  "median_days_per_person": 27.0
+ },
+ "mobius_very_active_minutes": {
+  "n_person_days": 757,
+  "n_people": 32,
+  "median_days_per_person": 27.0
+ }
+}

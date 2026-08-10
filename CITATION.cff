@@ -1,0 +1,12 @@
+cff-version: 1.2.0
+message: "If you use this replication package, please cite the paper."
+title: "Bodies Are Stable, Behaviour Is Not: A Personalization Ladder for Health and Fitness Recommendation"
+authors:
+  - family-names: Singh
+    given-names: Gursahib
+    affiliation: "Department of Computing Science, Thompson Rivers University"
+  - family-names: Anderson
+    given-names: Gregory S.
+    affiliation: "Faculty of Science, Thompson Rivers University"
+repository-code: "https://github.com/singhgursahib0007/health-personalization-ladder"
+license: MIT

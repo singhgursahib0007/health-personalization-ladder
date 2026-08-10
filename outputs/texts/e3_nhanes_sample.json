@@ -1,0 +1,11 @@
+{
+ "n_raw": 10175,
+ "n_adults": 6113,
+ "n_with_bmi": 5847,
+ "n_with_waist": 5587,
+ "n_with_mvpa": 6113,
+ "n_with_weight_var": 6113,
+ "mvpa_median": 150.0,
+ "mvpa_pct_zero": 33.12612465238017,
+ "pct_meets_guideline_unweighted": 51.23507279568133
+}

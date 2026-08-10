@@ -1,0 +1,12 @@
+{
+ "n_rows_raw": 7410,
+ "n_people_raw": 71,
+ "n_missing_steps": 2633,
+ "n_sedentary_1440": 2329,
+ "n_missing_steps_and_1440": 2256,
+ "n_literal_zero_steps": 86,
+ "n_rows_dropped": 2706,
+ "n_rows_kept": 4704,
+ "pct_dropped": 36.52,
+ "n_people_kept": 71
+}

@@ -1,0 +1,13 @@
+{
+ "n_fabricated": 5,
+ "n_real": 4,
+ "caught_by_D1_alone": 1,
+ "caught_by_D1_to_D4": 5,
+ "false_alarms_on_real": 0,
+ "per_detector_on_fabricated": {
+  "D1_lookup": 1,
+  "D2_signal": 2,
+  "D3_temporal": 3,
+  "D4_consistency": 1
+ }
+}

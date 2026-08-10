@@ -1,0 +1,10 @@
+dataset,ground_truth,n_rows,n_cols,d1_verdict,d1_n_exact_deps,d1_compression,d1_flag,d2_auc,d2_target,d2_flag,d2_n_targets,d3_lag1_ac,d3_var,d3_flag,d3_applicable,d4_disagree_pct,d4_flag,d4_applicable,any_flag,caught_by
+fitness_wellness_plan,FABRICATED,80000,5,RULE TABLE,2,0.0002,True,,,False,0,,,False,False,,False,False,True,D1
+diet_rec_medical,FABRICATED,5000,30,PASS,0,1.0,False,0.5095,Dietary_Habits,True,8,,,False,False,0.0,False,True,True,D2
+fitness365,FABRICATED,120000,12,PASS,0,1.0,False,0.5272,gender,True,1,-0.0111,heart_rate_avg,True,True,,False,False,True,"D2,D3"
+fitlife,FABRICATED,120000,22,MULTI-FEATURE DETERMINATION,0,1.0,False,0.9062,intensity,False,3,-0.0267,avg_heart_rate,True,True,95.37,True,True,True,"D3,D4"
+whoop100k,FABRICATED,100000,39,REDUNDANT COLUMNS,2,1.0,False,1.0,workout_completed,False,3,0.1175,day_strain,True,True,,False,False,True,D3
+lifesnaps,REAL,7410,63,REDUNDANT COLUMNS,9,1.0,False,0.7996,gender,False,3,0.8618,resting_hr,False,True,,False,False,False,none
+fitbit_mobius,REAL,940,15,PASS,0,1.0,False,,,False,0,,,False,False,,False,False,False,none
+smoking_body,REAL,55692,27,PASS,0,1.0,False,0.8373,smoking,False,1,,,False,False,,False,False,False,none
+cardio_train,REAL,70000,13,PASS,0,1.0,False,0.8031,cardio,False,1,,,False,False,,False,False,False,none

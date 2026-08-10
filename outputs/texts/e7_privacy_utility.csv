@@ -1,0 +1,6 @@
+rung,data_cost_level,what_the_user_must_disclose,r2_new_user,marginal_gain
+L0 population constant,0,nothing,-0.0099,
+L1 demographics (the book),1,"age and sex, once at signup",-0.0198,-0.0099
+L2 + body measurements,2,"height, weight, waist",-0.0255,-0.0057
+L3 + own behaviour history,3,"a daily activity log, ongoing",0.2749,0.3004
+L4 + yesterday's context,4,"mood and location, passively and continuously",0.2692,-0.0057

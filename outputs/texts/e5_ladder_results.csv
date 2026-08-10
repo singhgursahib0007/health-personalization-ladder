@@ -1,0 +1,161 @@
+target,model,rung,fold,n_train,n_test,r2,mae,source
+steps,ridge,L0 population constant,0,2417,123,-0.03904376454149716,3475.562728101422,lifesnaps
+steps,ridge,L0 population constant,1,2540,148,-6.481148466797038e-06,4639.468296446052,lifesnaps
+steps,ridge,L0 population constant,2,2688,535,-0.007633406016787747,4051.227414330219,lifesnaps
+steps,ridge,L0 population constant,3,3223,704,-0.00037412284636340054,3868.9290028347386,lifesnaps
+steps,ridge,L0 population constant,4,3927,566,-0.018640844318497107,4575.548544056235,lifesnaps
+steps,ridge,L1 demographics (the book),0,2417,123,-0.04805692252414073,3494.089316698534,lifesnaps
+steps,ridge,L1 demographics (the book),1,2540,148,-0.007318772905978266,4655.898450386957,lifesnaps
+steps,ridge,L1 demographics (the book),2,2688,535,-0.010099997510855774,4064.1887823274456,lifesnaps
+steps,ridge,L1 demographics (the book),3,3223,704,-0.002169432659094639,3877.009378387876,lifesnaps
+steps,ridge,L1 demographics (the book),4,3927,566,-0.018624023235811693,4575.754098075192,lifesnaps
+steps,ridge,L2 + body measurements,0,2417,123,-0.03201265898129635,3467.4686664551396,lifesnaps
+steps,ridge,L2 + body measurements,1,2540,148,-0.005085007079254966,4632.3420814254105,lifesnaps
+steps,ridge,L2 + body measurements,2,2688,535,-0.02959945547218057,4118.872740245386,lifesnaps
+steps,ridge,L2 + body measurements,3,3223,704,-0.0015042140418644045,3873.732652941825,lifesnaps
+steps,ridge,L2 + body measurements,4,3927,566,-0.016047078830716988,4570.705681715124,lifesnaps
+steps,ridge,L3 + own behaviour history,0,2417,123,0.022300959510966778,3406.198681703711,lifesnaps
+steps,ridge,L3 + own behaviour history,1,2540,148,0.16176479265171506,4037.5211315618812,lifesnaps
+steps,ridge,L3 + own behaviour history,2,2688,535,0.2957435809623131,3302.345018607567,lifesnaps
+steps,ridge,L3 + own behaviour history,3,3223,704,0.2430081095440706,3221.537104188464,lifesnaps
+steps,ridge,L3 + own behaviour history,4,3927,566,0.40747754444589357,3315.118342545076,lifesnaps
+steps,ridge,L4 + yesterday's context,0,2417,123,0.04501230276558521,3345.980546435003,lifesnaps
+steps,ridge,L4 + yesterday's context,1,2540,148,0.16694261819777678,4020.7741107412644,lifesnaps
+steps,ridge,L4 + yesterday's context,2,2688,535,0.28705528359904253,3333.5832799659283,lifesnaps
+steps,ridge,L4 + yesterday's context,3,3223,704,0.24956377167591925,3219.394283233592,lifesnaps
+steps,ridge,L4 + yesterday's context,4,3927,566,0.397541864040064,3348.3675850436607,lifesnaps
+steps,gbm,L0 population constant,0,2417,123,-0.03904376454149716,3475.562728101422,lifesnaps
+steps,gbm,L0 population constant,1,2540,148,-6.481148466797038e-06,4639.468296446052,lifesnaps
+steps,gbm,L0 population constant,2,2688,535,-0.007633406016787747,4051.227414330219,lifesnaps
+steps,gbm,L0 population constant,3,3223,704,-0.00037412284636340054,3868.9290028347386,lifesnaps
+steps,gbm,L0 population constant,4,3927,566,-0.018640844318497107,4575.548544056235,lifesnaps
+steps,gbm,L1 demographics (the book),0,2417,123,-0.050751805116090454,3499.9772774964895,lifesnaps
+steps,gbm,L1 demographics (the book),1,2540,148,-0.010522303920373233,4662.718909514781,lifesnaps
+steps,gbm,L1 demographics (the book),2,2688,535,-0.011220320126104744,4069.647543590857,lifesnaps
+steps,gbm,L1 demographics (the book),3,3223,704,-0.002790878002675967,3879.643704648619,lifesnaps
+steps,gbm,L1 demographics (the book),4,3927,566,-0.01862005371116826,4575.806461858401,lifesnaps
+steps,gbm,L2 + body measurements,0,2417,123,-0.1887097619547471,3720.2953728590714,lifesnaps
+steps,gbm,L2 + body measurements,1,2540,148,0.02924191423154554,4584.740442177427,lifesnaps
+steps,gbm,L2 + body measurements,2,2688,535,-0.0952144391009806,4308.33114053369,lifesnaps
+steps,gbm,L2 + body measurements,3,3223,704,-0.01277176944641556,3912.4433043887375,lifesnaps
+steps,gbm,L2 + body measurements,4,3927,566,0.004746085301715719,4515.103131642183,lifesnaps
+steps,gbm,L3 + own behaviour history,0,2417,123,-0.0419802593795473,3503.0151652456875,lifesnaps
+steps,gbm,L3 + own behaviour history,1,2540,148,0.021545700045228044,4465.98601723755,lifesnaps
+steps,gbm,L3 + own behaviour history,2,2688,535,0.27889377684655325,3436.7127870203976,lifesnaps
+steps,gbm,L3 + own behaviour history,3,3223,704,0.16177304220355582,3305.87516024999,lifesnaps
+steps,gbm,L3 + own behaviour history,4,3927,566,0.3715426030460264,3396.764880198648,lifesnaps
+steps,gbm,L4 + yesterday's context,0,2417,123,-0.018615805492570248,3427.269893234191,lifesnaps
+steps,gbm,L4 + yesterday's context,1,2540,148,0.09214236114582575,4265.810389485708,lifesnaps
+steps,gbm,L4 + yesterday's context,2,2688,535,0.2538309717370584,3484.344539037215,lifesnaps
+steps,gbm,L4 + yesterday's context,3,3223,704,0.18255034868533182,3305.4139710668505,lifesnaps
+steps,gbm,L4 + yesterday's context,4,3927,566,0.36108362168685004,3420.7071672917414,lifesnaps
+very_active_minutes,ridge,L0 population constant,0,2417,123,-0.03494877495296955,19.954129119280438,lifesnaps
+very_active_minutes,ridge,L0 population constant,1,2540,148,-0.00013913343431237735,24.66553522025963,lifesnaps
+very_active_minutes,ridge,L0 population constant,2,2688,535,-0.001076467977003004,21.8762662716956,lifesnaps
+very_active_minutes,ridge,L0 population constant,3,3223,704,-0.01658875945001581,20.557938943812935,lifesnaps
+very_active_minutes,ridge,L0 population constant,4,3927,566,-0.013117184098052181,21.753232356225496,lifesnaps
+very_active_minutes,ridge,L1 demographics (the book),0,2417,123,-0.05103647155806135,20.460814730946545,lifesnaps
+very_active_minutes,ridge,L1 demographics (the book),1,2540,148,0.10423760880320865,23.188753025373,lifesnaps
+very_active_minutes,ridge,L1 demographics (the book),2,2688,535,0.06631949558657735,21.048067632863486,lifesnaps
+very_active_minutes,ridge,L1 demographics (the book),3,3223,704,0.010030290298903122,20.12156886372777,lifesnaps
+very_active_minutes,ridge,L1 demographics (the book),4,3927,566,-0.048073456831559946,22.03824929627117,lifesnaps
+very_active_minutes,ridge,L2 + body measurements,0,2417,123,-0.06314213623864795,20.605520518082823,lifesnaps
+very_active_minutes,ridge,L2 + body measurements,1,2540,148,0.10237757007071191,23.251886706042203,lifesnaps
+very_active_minutes,ridge,L2 + body measurements,2,2688,535,0.07371712635452743,20.963409551720996,lifesnaps
+very_active_minutes,ridge,L2 + body measurements,3,3223,704,0.018042688050824207,20.014823093521674,lifesnaps
+very_active_minutes,ridge,L2 + body measurements,4,3927,566,-0.040857265948954335,22.009049600854357,lifesnaps
+very_active_minutes,ridge,L3 + own behaviour history,0,2417,123,0.0679087573311915,18.572103737754784,lifesnaps
+very_active_minutes,ridge,L3 + own behaviour history,1,2540,148,0.17629035628337286,21.07481573394678,lifesnaps
+very_active_minutes,ridge,L3 + own behaviour history,2,2688,535,0.2642748074065332,17.51716898118484,lifesnaps
+very_active_minutes,ridge,L3 + own behaviour history,3,3223,704,0.1998734204889936,16.925338164126682,lifesnaps
+very_active_minutes,ridge,L3 + own behaviour history,4,3927,566,0.3110741797795059,16.454060800363457,lifesnaps
+very_active_minutes,ridge,L4 + yesterday's context,0,2417,123,0.09074780991694542,18.2389946768273,lifesnaps
+very_active_minutes,ridge,L4 + yesterday's context,1,2540,148,0.17805741953041743,20.828000157656888,lifesnaps
+very_active_minutes,ridge,L4 + yesterday's context,2,2688,535,0.26190470259356546,17.435726667523735,lifesnaps
+very_active_minutes,ridge,L4 + yesterday's context,3,3223,704,0.20154498495097006,16.955600722211145,lifesnaps
+very_active_minutes,ridge,L4 + yesterday's context,4,3927,566,0.2910751971442316,16.863253123178715,lifesnaps
+very_active_minutes,gbm,L0 population constant,0,2417,123,-0.03494877495296955,19.954129119280438,lifesnaps
+very_active_minutes,gbm,L0 population constant,1,2540,148,-0.00013913343431237735,24.66553522025963,lifesnaps
+very_active_minutes,gbm,L0 population constant,2,2688,535,-0.001076467977003004,21.8762662716956,lifesnaps
+very_active_minutes,gbm,L0 population constant,3,3223,704,-0.01658875945001581,20.557938943812935,lifesnaps
+very_active_minutes,gbm,L0 population constant,4,3927,566,-0.013117184098052181,21.753232356225496,lifesnaps
+very_active_minutes,gbm,L1 demographics (the book),0,2417,123,-0.05183827240948258,20.466576213143924,lifesnaps
+very_active_minutes,gbm,L1 demographics (the book),1,2540,148,0.10466557501086016,23.18154260038175,lifesnaps
+very_active_minutes,gbm,L1 demographics (the book),2,2688,535,0.06639743987071656,21.047186358828796,lifesnaps
+very_active_minutes,gbm,L1 demographics (the book),3,3223,704,0.0097428396075816,20.122407587912623,lifesnaps
+very_active_minutes,gbm,L1 demographics (the book),4,3927,566,-0.048513996784667945,22.04118369626255,lifesnaps
+very_active_minutes,gbm,L2 + body measurements,0,2417,123,-0.18953367694040413,21.552569507835017,lifesnaps
+very_active_minutes,gbm,L2 + body measurements,1,2540,148,0.13199029845451038,23.26630906088741,lifesnaps
+very_active_minutes,gbm,L2 + body measurements,2,2688,535,-0.033115565101845545,21.992841299140554,lifesnaps
+very_active_minutes,gbm,L2 + body measurements,3,3223,704,-0.01371107179788611,19.779432020169637,lifesnaps
+very_active_minutes,gbm,L2 + body measurements,4,3927,566,-0.025456654524534494,21.45385325484349,lifesnaps
+very_active_minutes,gbm,L3 + own behaviour history,0,2417,123,0.046943627475385497,18.34797109299831,lifesnaps
+very_active_minutes,gbm,L3 + own behaviour history,1,2540,148,0.0742660319811752,22.07878363014168,lifesnaps
+very_active_minutes,gbm,L3 + own behaviour history,2,2688,535,0.19361275187360538,18.89462201096794,lifesnaps
+very_active_minutes,gbm,L3 + own behaviour history,3,3223,704,0.1380092978255294,17.444288333418005,lifesnaps
+very_active_minutes,gbm,L3 + own behaviour history,4,3927,566,0.308296879024599,16.116168201763156,lifesnaps
+very_active_minutes,gbm,L4 + yesterday's context,0,2417,123,0.0734534807422037,18.14995322970769,lifesnaps
+very_active_minutes,gbm,L4 + yesterday's context,1,2540,148,0.0773798578494076,22.67085459415763,lifesnaps
+very_active_minutes,gbm,L4 + yesterday's context,2,2688,535,0.2211486123107631,18.25728378864468,lifesnaps
+very_active_minutes,gbm,L4 + yesterday's context,3,3223,704,0.17889881291974108,17.07619727983644,lifesnaps
+very_active_minutes,gbm,L4 + yesterday's context,4,3927,566,0.3220753614686829,16.168969687424845,lifesnaps
+steps,ridge,L0 population constant,0,347,88,-0.0009472004547206314,3358.01149462929,mobius
+steps,ridge,L0 population constant,1,435,82,-0.0050212819228214745,4127.225147182507,mobius
+steps,ridge,L0 population constant,2,517,79,-0.002709459567328709,3747.8668315255973,mobius
+steps,ridge,L0 population constant,3,596,76,-0.005036853123342011,3853.8716442953,mobius
+steps,ridge,L0 population constant,4,672,85,-0.006512042287952102,3606.986764705883,mobius
+steps,ridge,L3 + own behaviour history,0,347,88,0.41126856171829385,2656.624120164082,mobius
+steps,ridge,L3 + own behaviour history,1,435,82,0.013230922674524193,3516.4242531843993,mobius
+steps,ridge,L3 + own behaviour history,2,517,79,0.544674684918632,2336.7170310049864,mobius
+steps,ridge,L3 + own behaviour history,3,596,76,0.4480053938450499,2606.2195486774617,mobius
+steps,ridge,L3 + own behaviour history,4,672,85,0.28071102433572725,2926.2950934765167,mobius
+steps,ridge,L4 + yesterday's context,0,347,88,0.41126856171829385,2656.624120164082,mobius
+steps,ridge,L4 + yesterday's context,1,435,82,0.013230922674524193,3516.4242531843993,mobius
+steps,ridge,L4 + yesterday's context,2,517,79,0.544674684918632,2336.7170310049864,mobius
+steps,ridge,L4 + yesterday's context,3,596,76,0.4480053938450499,2606.2195486774617,mobius
+steps,ridge,L4 + yesterday's context,4,672,85,0.28071102433572725,2926.2950934765167,mobius
+steps,gbm,L0 population constant,0,347,88,-0.0009472004547206314,3358.01149462929,mobius
+steps,gbm,L0 population constant,1,435,82,-0.0050212819228214745,4127.225147182507,mobius
+steps,gbm,L0 population constant,2,517,79,-0.002709459567328709,3747.8668315255973,mobius
+steps,gbm,L0 population constant,3,596,76,-0.005036853123342011,3853.8716442953,mobius
+steps,gbm,L0 population constant,4,672,85,-0.006512042287952102,3606.986764705883,mobius
+steps,gbm,L3 + own behaviour history,0,347,88,0.22342407310948786,3142.916639639089,mobius
+steps,gbm,L3 + own behaviour history,1,435,82,-0.05072549019971917,3640.6992528346855,mobius
+steps,gbm,L3 + own behaviour history,2,517,79,0.3373551060810387,2831.0502155354216,mobius
+steps,gbm,L3 + own behaviour history,3,596,76,0.19673146400948693,3049.5787861794624,mobius
+steps,gbm,L3 + own behaviour history,4,672,85,0.12111731850939977,3118.3364275566173,mobius
+steps,gbm,L4 + yesterday's context,0,347,88,0.22342407310948786,3142.916639639089,mobius
+steps,gbm,L4 + yesterday's context,1,435,82,-0.05072549019971917,3640.6992528346855,mobius
+steps,gbm,L4 + yesterday's context,2,517,79,0.3373551060810387,2831.0502155354216,mobius
+steps,gbm,L4 + yesterday's context,3,596,76,0.19673146400948693,3049.5787861794624,mobius
+steps,gbm,L4 + yesterday's context,4,672,85,0.12111731850939977,3118.3364275566173,mobius
+very_active_minutes,ridge,L0 population constant,0,347,88,-0.02840591306122442,22.410007859575583,mobius
+very_active_minutes,ridge,L0 population constant,1,435,82,-0.00531149277968157,25.988141295206056,mobius
+very_active_minutes,ridge,L0 population constant,2,517,79,-0.004159752148137796,22.20598388952819,mobius
+very_active_minutes,ridge,L0 population constant,3,596,76,-0.0039039560189693123,26.748984457788772,mobius
+very_active_minutes,ridge,L0 population constant,4,672,85,-0.00466785356364019,24.750525210084035,mobius
+very_active_minutes,ridge,L3 + own behaviour history,0,347,88,0.2913200213851408,15.641319584695824,mobius
+very_active_minutes,ridge,L3 + own behaviour history,1,435,82,0.2715787471300096,19.62898781059207,mobius
+very_active_minutes,ridge,L3 + own behaviour history,2,517,79,0.5976649468967363,12.682726235760112,mobius
+very_active_minutes,ridge,L3 + own behaviour history,3,596,76,0.38333370196752914,19.0795127281721,mobius
+very_active_minutes,ridge,L3 + own behaviour history,4,672,85,0.46021530039909353,16.85068440575487,mobius
+very_active_minutes,ridge,L4 + yesterday's context,0,347,88,0.2913200213851408,15.641319584695824,mobius
+very_active_minutes,ridge,L4 + yesterday's context,1,435,82,0.2715787471300096,19.62898781059207,mobius
+very_active_minutes,ridge,L4 + yesterday's context,2,517,79,0.5976649468967363,12.682726235760112,mobius
+very_active_minutes,ridge,L4 + yesterday's context,3,596,76,0.38333370196752914,19.0795127281721,mobius
+very_active_minutes,ridge,L4 + yesterday's context,4,672,85,0.46021530039909353,16.85068440575487,mobius
+very_active_minutes,gbm,L0 population constant,0,347,88,-0.02840591306122442,22.410007859575583,mobius
+very_active_minutes,gbm,L0 population constant,1,435,82,-0.00531149277968157,25.988141295206056,mobius
+very_active_minutes,gbm,L0 population constant,2,517,79,-0.004159752148137796,22.20598388952819,mobius
+very_active_minutes,gbm,L0 population constant,3,596,76,-0.0039039560189693123,26.748984457788772,mobius
+very_active_minutes,gbm,L0 population constant,4,672,85,-0.00466785356364019,24.750525210084035,mobius
+very_active_minutes,gbm,L3 + own behaviour history,0,347,88,-0.18881490667942402,18.04710028445609,mobius
+very_active_minutes,gbm,L3 + own behaviour history,1,435,82,0.2323014037749762,19.916612167067704,mobius
+very_active_minutes,gbm,L3 + own behaviour history,2,517,79,0.42159929779051974,13.57736639260094,mobius
+very_active_minutes,gbm,L3 + own behaviour history,3,596,76,0.21397092509467774,20.132365773130964,mobius
+very_active_minutes,gbm,L3 + own behaviour history,4,672,85,0.45151747483257765,16.16696549467938,mobius
+very_active_minutes,gbm,L4 + yesterday's context,0,347,88,-0.18881490667942402,18.04710028445609,mobius
+very_active_minutes,gbm,L4 + yesterday's context,1,435,82,0.2323014037749762,19.916612167067704,mobius
+very_active_minutes,gbm,L4 + yesterday's context,2,517,79,0.42159929779051974,13.57736639260094,mobius
+very_active_minutes,gbm,L4 + yesterday's context,3,596,76,0.21397092509467774,20.132365773130964,mobius
+very_active_minutes,gbm,L4 + yesterday's context,4,672,85,0.45151747483257765,16.16696549467938,mobius

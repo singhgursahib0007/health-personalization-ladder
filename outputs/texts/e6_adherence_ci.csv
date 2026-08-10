@@ -1,0 +1,8 @@
+rung,point,ci_low,ci_high,marginal,marg_ci_low,marg_ci_high,excludes_zero
+L0 base rate,0.5,0.5,0.5,,,,
+L1 demographics (the book),0.5841,0.4011,0.6603,0.0841,-0.0989,0.1603,False
+L2 + body measurements,0.6041,0.3921,0.6952,0.02,-0.084,0.1641,False
+L2g + the goal itself,0.6248,0.4495,0.7369,0.0207,-0.0392,0.1429,False
+L3 + own behaviour history,0.7007,0.5841,0.7709,0.0759,-0.0238,0.2268,False
+L3a + own adherence history,0.7465,0.6171,0.7938,0.0457,-0.0055,0.0921,False
+L4 + yesterday's context,0.7263,0.5824,0.7847,-0.0202,-0.0827,0.0159,False

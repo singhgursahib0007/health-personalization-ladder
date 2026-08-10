@@ -1,0 +1,41 @@
+EXPERIMENT 2: FABRICATION DETECTION BATTERY
+==============================================================================
+
+dataset                 truth          D1   D2   D3   D4  caught by
+------------------------------------------------------------------------------
+fitness_wellness_plan   FABRICATED      X    .    .    .  D1
+diet_rec_medical        FABRICATED      .    X    .    .  D2
+fitness365              FABRICATED      .    X    X    .  D2,D3
+fitlife                 FABRICATED      .    .    X    X  D3,D4
+whoop100k               FABRICATED      .    .    X    .  D3
+lifesnaps               REAL            .    .    .    .  none
+fitbit_mobius           REAL            .    .    .    .  none
+smoking_body            REAL            .    .    .    .  none
+cardio_train            REAL            .    .    .    .  none
+------------------------------------------------------------------------------
+
+DETECTOR EVIDENCE
+dataset                 D1 verdict                   D2 AUC  D3 lag1  D4 BMI%
+------------------------------------------------------------------------------
+fitness_wellness_plan   RULE TABLE                      n/a      n/a      n/a
+diet_rec_medical        PASS                         0.5095      n/a      0.0
+fitness365              PASS                         0.5272  -0.0111      n/a
+fitlife                 MULTI-FEATURE DETERMINATION   0.9062  -0.0267    95.37
+whoop100k               REDUNDANT COLUMNS               1.0   0.1175      n/a
+lifesnaps               REDUNDANT COLUMNS            0.7996   0.8618      n/a
+fitbit_mobius           PASS                            n/a      n/a      n/a
+smoking_body            PASS                         0.8373      n/a      n/a
+cardio_train            PASS                         0.8031      n/a      n/a
+
+==============================================================================
+COVERAGE
+  fabricated datasets                : 5
+  caught by D1 alone (published screen): 1
+  caught by the full battery          : 5
+  false alarms on real datasets       : 0 of 4
+
+  per detector, on fabricated data:
+    D1_lookup         1
+    D2_signal         2
+    D3_temporal       3
+    D4_consistency    1

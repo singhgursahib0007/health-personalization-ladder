@@ -1,0 +1,41 @@
+EXPERIMENT 7: COLD START AND THE PRICE OF PERSONALIZATION
+LifeSnaps, next-day steps, leave-one-person-out
+======================================================================================
+
+A NEW USER, WITH NO HISTORY AT ALL (model has never seen this person)
+  rung                                      R2
+  --------------------------------------------
+  L0 population constant               -0.0099
+  L1 demographics (the book)           -0.0198
+  L2 + body measurements               -0.0255
+  L3 + own behaviour history           +0.2749
+  L4 + yesterday's context             +0.2692
+
+AS THE PERSON'S OWN HISTORY ACCUMULATES
+  days of history         n       L0       L1       L2       L3       L4
+  ----------------------------------------------------------------------
+  0-0                    71   -0.185   -0.192   -0.210   -0.093   -0.095
+  1-2                   140   -0.012   -0.023   -0.024   +0.061   +0.056
+  3-6                   279   -0.017   -0.023   -0.026   +0.146   +0.140
+  7-13                  473   -0.041   -0.050   -0.054   +0.239   +0.236
+  14-27                 923   -0.025   -0.034   -0.034   +0.308   +0.304
+  28-55                1602   -0.010   -0.019   -0.025   +0.290   +0.281
+  56-+                 1216   -0.060   -0.074   -0.086   +0.260   +0.255
+
+THE PRIVACY-UTILITY CURVE
+  rung                                     R2  marginal  what the user must disclose
+  --------------------------------------------------------------------------------------------
+  L0 population constant              -0.0099      +nan  nothing
+  L1 demographics (the book)          -0.0198   -0.0099  age and sex, once at signup
+  L2 + body measurements              -0.0255   -0.0057  height, weight, waist
+  L3 + own behaviour history          +0.2749   +0.3004  a daily activity log, ongoing
+  L4 + yesterday's context            +0.2692   -0.0057  mood and location, passively and continuously
+
+======================================================================================
+HEADLINE
+  L3 (a behaviour log) buys +0.3004 over body measurements.
+  L4 (continuous passive sensing) buys a further -0.0057.
+
+  The most intrusive layer is the one that returns almost
+  nothing. On this evidence an application should collect a
+  behaviour log and stop there.

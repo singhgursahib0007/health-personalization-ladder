@@ -1,0 +1,53 @@
+EXPERIMENT 3: WHAT DO THE LOWER RUNGS OF THE LADDER EXPLAIN?
+NHANES 2013-2014, design-weighted (WTMEC2YR), jackknife CIs over 15 strata x 2 PSU
+==============================================================================
+
+adults 18+                     : 6,113
+with measured BMI              : 5,847
+with measured waist            : 5,587
+with derivable weekly MVPA     : 6,113
+median weekly MVPA (min)       : 150
+reporting zero MVPA            : 33.1%
+
+VARIANCE EXPLAINED (weighted R2)
+target                            predictors                            R2              95% CI
+----------------------------------------------------------------------------------------------
+BODY: waist-to-height ratio       L1  age + sex                     0.0791      [0.043, 0.116]
+BODY: waist-to-height ratio       L1+ age + sex + ethnicity + SES   0.1047      [0.061, 0.148]
+BODY: waist-to-height ratio       L2  + BMI                         0.8947      [0.884, 0.905]
+BODY: waist circumference         L1  age + sex                     0.0631      [0.027, 0.100]
+BODY: waist circumference         L1+ age + sex + ethnicity + SES   0.0820      [0.045, 0.119]
+BODY: waist circumference         L2  + BMI                         0.8813      [0.872, 0.891]
+BEHAVIOUR: weekly MVPA minutes    L1  age + sex                     0.0737      [0.049, 0.099]
+BEHAVIOUR: weekly MVPA minutes    L1+ age + sex + ethnicity + SES   0.0798      [0.054, 0.106]
+BEHAVIOUR: weekly MVPA minutes    L2  + BMI                         0.0737      [0.048, 0.100]
+BEHAVIOUR: weekly MVPA minutes    L2+ + waist                       0.0748      [0.050, 0.100]
+BEHAVIOUR: weekly MVPA minutes    L2++ + waist-to-height + BP       0.0752      [0.048, 0.102]
+BEHAVIOUR: sedentary minutes/day  L1  age + sex                     0.0025     [-0.003, 0.008]
+BEHAVIOUR: sedentary minutes/day  L1+ age + sex + ethnicity + SES   0.0482      [0.029, 0.067]
+BEHAVIOUR: sedentary minutes/day  L2  + BMI                         0.0118      [0.003, 0.021]
+BEHAVIOUR: sedentary minutes/day  L2+ + waist                       0.0127      [0.002, 0.024]
+BEHAVIOUR: sedentary minutes/day  L2++ + waist-to-height + BP       0.0164      [0.007, 0.025]
+BEHAVIOUR: sleep hours            L1  age + sex                     0.0039     [-0.002, 0.010]
+BEHAVIOUR: sleep hours            L1+ age + sex + ethnicity + SES   0.0164      [0.004, 0.029]
+BEHAVIOUR: sleep hours            L2  + BMI                         0.0140      [0.003, 0.025]
+BEHAVIOUR: sleep hours            L2+ + waist                       0.0119      [0.001, 0.023]
+BEHAVIOUR: sleep hours            L2++ + waist-to-height + BP       0.0119      [0.000, 0.024]
+
+PREDICTING WHO MEETS THE ACTIVITY GUIDELINE (grouped CV AUC)
+predictors                               n     AUC
+--------------------------------------------------
+L1  age + sex                         6113  0.6686
+L1+ age + sex + ethnicity + SES       5309  0.6858
+L2  + BMI                             5847  0.6686
+L2+ + waist                           5573  0.6637
+L2++ + waist-to-height + BP           5152  0.6657
+waist-to-height ratio alone           5578  0.5868
+BMI alone                             5847  0.5366
+age alone                             6113  0.6497
+
+==============================================================================
+HEADLINE
+  best R2 on a BODY target      : 0.8947
+  best R2 on a BEHAVIOUR target : 0.0798
+  ratio                         : 11.2x

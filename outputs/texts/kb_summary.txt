@@ -1,0 +1,29 @@
+BOOK KNOWLEDGE BASE: AUDIT OF THE DEPLOYED RECOMMENDATION ENGINE
+====================================================================
+source: WELLNESSHUB4/Book.md, section 56 (HARDCODED RECOMMENDATION LOGIC)
+
+input grid enumerated                     : 378 (ages 18-80 x 2 sexes x 3 activity levels)
+
+DISTINCT OUTPUTS THE ENGINE CAN PRODUCE
+  distinct diet prescriptions             : 6
+  distinct activity/sleep/water sets      : 1
+  distinct full recommendations           : 14
+  distinct once age-based HR zones added  : 198
+
+  compression (outputs / inputs)          : 0.0370
+
+COVERAGE
+  inputs with a defined calorie target    : 19.0%
+  note: book states the pattern continues but does not give values
+
+INTERPRETATION
+  The diet and activity components of the engine are a lookup table.
+  Excluding the continuous heart-rate zones, which vary with age by
+  arithmetic rather than by clinical reasoning, 378 distinct users
+  receive one of only 14 distinct recommendations. Activity, sleep and
+  water targets are population constants: 1 distinct value(s) across
+  the whole grid. No logged behaviour enters the engine at any point.
+
+  This is the L1 rung of the personalization ladder and the baseline the
+  paper measures against. It is guideline-faithful and safe; the open
+  question the paper answers is whether it is sufficient.

@@ -1,0 +1,903 @@
+================================================================================
+DECISION LOG
+Personalized health and fitness recommendation: research paper 2
+Gursahib Singh, Gregory S. Anderson (Thompson Rivers University)
+Started 2026-08-10
+================================================================================
+
+This file is a running, append-only record of what was observed, what was
+decided, why, and what comes next. It is written in plain language so that it
+can be quoted directly in the methodology and discussion sections of the paper.
+Nothing here is written after the fact; entries are appended as work happens.
+
+--------------------------------------------------------------------------------
+ENTRY 001  |  2026-08-10  |  Why this paper exists, and why it replaces an earlier one
+--------------------------------------------------------------------------------
+
+OBSERVED.
+An earlier version of this research had drifted into a data-quality paper about
+broken public datasets. That work was rigorous and has been preserved separately,
+but it answered a question nobody in this project had asked. The actual question,
+the one that motivated the collaboration, is a product question with a research
+core: Dr. Anderson has written a book on fitness, health and habit formation, and
+a companion web application exists that logs a user's profile, goals and daily
+behaviour. The feature he wants is recommendation. Given what the application
+knows about a person, what should it suggest they do next?
+
+DECISION.
+Restart the paper around that question. Keep three assets from the earlier work
+because they are directly load-bearing here, and discard the rest of the framing.
+  1. The NHANES analysis. It established, on 5,929 adults, that BMI category
+     explains about 64 percent of the variance in waist-to-height ratio but under
+     3 percent of the variance in weekly physical activity, and that waist-to-
+     height ratio alone predicts guideline adherence better (AUC 0.633) than BMI
+     in either categorical (0.588) or continuous (0.598) form. That is the
+     empirical case for why a recommender must not key on BMI, and it is now
+     foundational rather than a closing remark.
+  2. The dataset screen. A harness that detects when a modelling target is an
+     exact function of a single other column. It is now a tool for vetting
+     training data rather than the subject of the paper. Every dataset admitted
+     to this study must pass it.
+  3. The finding that motivated the screen in the first place: a widely
+     downloaded Kaggle "fitness recommendation" dataset with 80,000 rows turned
+     out to contain 16 distinct records, with every exercise and meal
+     recommendation an exact function of BMI category. This is the strawman the
+     new paper argues against, and we now have proof it exists in the wild.
+
+RATIONALE.
+The intellectual honesty of the earlier work is the reason it is worth reusing.
+We are not asserting that BMI-keyed recommendation is inadequate; we measured it.
+
+NEXT.
+Acquire real data. Two parallel searches: per-person longitudinal behavioural
+logs, and cross-sectional profile-plus-outcome datasets. Screen everything for
+fabrication before admitting it.
+
+--------------------------------------------------------------------------------
+ENTRY 002  |  2026-08-10  |  The central methodological obstacle, stated up front
+--------------------------------------------------------------------------------
+
+OBSERVED.
+There is no public dataset that records "person P should have been told to do X."
+That label does not exist. This is not an oversight in the data landscape; it is
+a structural fact. The correct recommendation for an individual is a
+counterfactual, and counterfactuals are not logged.
+
+This is precisely why the fabricated dataset described in ENTRY 001 exists:
+somebody needed recommendation labels in order to train a classifier, could not
+find any, and generated them from BMI. The resulting file trains a model that
+reports 89 percent accuracy and has learned a four-line lookup table.
+
+DECISION.
+Do not attempt to predict "the correct recommendation" from data. Instead build
+the study around quantities that ARE observable in real logs:
+  - whether a person actually performed an activity (adherence),
+  - what their behaviour was on the following day or week (proximal outcome),
+  - and how those relate to their profile and history.
+A recommendation is then chosen as the permissible action with the highest
+expected adherence-weighted benefit, rather than read off a label.
+
+RATIONALE.
+Every claim in the paper must be checkable against something that was really
+measured. Predicting an invented label is the failure mode we already documented
+in the previous paper, and repeating it here would be indefensible.
+
+NEXT.
+Confirm, from the acquired data, that the observable quantities above are in fact
+present and modellable. If per-person longitudinal data with adherence signals
+does not exist publicly at usable scale, the design must change, and that
+constraint will be reported rather than hidden.
+
+--------------------------------------------------------------------------------
+ENTRY 003  |  2026-08-10  |  Reading the book, and finding the paper inside it
+--------------------------------------------------------------------------------
+
+OBSERVED.
+Read Dr. Anderson's book source (WELLNESSHUB4/Book.md, 1,942 lines) directly.
+It is not a narrative book so much as a structured specification: five wellness
+domains, a prevention index that scores fourteen health behaviours by importance,
+five ten-item wellness questionnaires with a fixed scoring rubric, food group
+targets, serving-size definitions, activity guidance, heart-rate zones, an RPE
+scale, sleep and fluid targets, caloric needs, a four-step goal-setting
+framework, strength-training progression, and contraindications.
+
+The decisive find is section 56, titled "HARDCODED RECOMMENDATION LOGIC"
+(Book.md lines 1626 to 1731). The book already contains a recommendation engine,
+written as pseudocode. Its structure is:
+
+    food servings      = f(age band, sex)
+    daily calories     = f(age band, sex, activity level)
+    activity minutes   = a fixed constant for everyone
+    heart-rate zones   = f(age)
+    sleep and water    = fixed constants for everyone
+
+In other words, the recommendation is an exact function of three demographic
+variables, and for several outputs it is a constant. Nothing a user logs after
+onboarding changes what they are told.
+
+DECISION.
+This is the research question, and it is much better than the one I was going to
+invent. The paper should ask: how much personalization does a health behaviour
+recommendation actually need, and where do the returns to personalization
+appear? Dr. Anderson's engine is not a strawman we made up. It is a real,
+guideline-faithful, deployed-intent system written by a domain expert, and it is
+the honest baseline. The fabricated Kaggle dataset from the earlier work is the
+same structural pattern taken to its pathological extreme: recommendations as an
+exact function of BMI category alone, with sixteen distinct outputs for eighty
+thousand people.
+
+We therefore define a PERSONALIZATION LADDER and measure each rung:
+
+    L0  Population constant        one recommendation for everyone
+                                   (the book's activity, sleep, water targets)
+    L1  Demographic lookup         f(age, sex, activity level)
+                                   (the book's food and calorie engine)
+    L2  Anthropometric and risk    add waist, waist-to-height, conditions,
+                                   readiness screening
+    L3  Behaviour-adaptive         add the person's own logged history:
+                                   their baseline, trend, variability, adherence
+    L4  Context-adaptive           add within-day and within-week context,
+                                   learned online
+
+RATIONALE.
+Every rung is implementable, every rung is a real design choice somebody has to
+make when building this app, and the difference between rungs is measurable
+against observed behaviour. This turns a vague question ("how should we
+recommend?") into a quantitative one ("how much of what we need to know is
+captured at each level?"). It also means the paper's conclusion is directly
+actionable for the product: it tells Dr. Anderson which rung to build.
+
+The earlier NHANES result is now the first evidence on the ladder. BMI category,
+an L1-style variable, explains under 3 percent of the variance in how much
+activity a person actually does. If that pattern holds in the new data, the
+conclusion is that L1 cannot personalize behaviour, only body-size-linked
+quantities, and that the useful signal starts at L3.
+
+NEXT.
+Confirm the ladder is measurable in the acquired data. Specifically we need,
+at minimum, a dataset with per-person repeated observations so that L3 can be
+constructed at all, and a cross-sectional dataset with both demographics and
+behaviour so that L1 and L2 can be compared. Two acquisition agents are running.
+
+--------------------------------------------------------------------------------
+ENTRY 004  |  2026-08-10  |  Additional structure available from the book
+--------------------------------------------------------------------------------
+
+OBSERVED.
+Three further parts of the book are directly usable as research material rather
+than background.
+
+1. The prevention index (Book.md lines 64 to 87) assigns each of fourteen health
+   behaviours a numeric importance score from 6.7 to 9.8, with not smoking at
+   9.8 and sleep at 6.7. This is an explicit, expert-authored utility function
+   over behaviours. Recommendation requires exactly such a utility in order to
+   rank competing suggestions, and most systems have to invent one. We have one,
+   authored by the domain expert who is a co-author.
+
+2. The wellness questionnaires (lines 87 to 167) define five ten-item scales
+   with a fixed scoring rubric and five interpretation bands. This is a
+   ready-made assessment instrument that maps a person onto an interpretable
+   state vector.
+
+3. The adherence factors (lines 787 to 815) name predisposing, enabling and
+   reinforcing determinants of whether somebody sticks with activity. This is
+   the classic PRECEDE framework, and it tells us which features the adherence
+   model should contain.
+
+4. The contraindications (lines 1813 to 1834) give the refusal conditions: chest
+   pain, persistent high resting heart rate, unexplained weight change, chronic
+   insomnia, suspected depression. A recommender must be able to decline and
+   defer to a clinician, and these are the triggers.
+
+DECISION.
+Encode all four as machine-readable resources in the repository: a prevention
+index table, the questionnaire scoring, the adherence feature list, and a
+refusal rule set. These become the knowledge layer of the system and are
+citable to the book rather than invented by us.
+
+RATIONALE.
+It keeps the boundary honest between what is asserted by domain expertise and
+what is learned from data. Anything in the knowledge layer traces to the book or
+to a published guideline. Anything in the learned layer traces to a measured
+result. The paper can then be explicit about which is which, which is precisely
+the criticism the previous paper attracted and survived.
+
+NEXT.
+Wait for dataset acquisition, then match the ladder rungs to the columns that
+actually exist.
+
+--------------------------------------------------------------------------------
+ENTRY 005  |  2026-08-10  |  First measured result, and it is a surprising one
+--------------------------------------------------------------------------------
+
+OBSERVED.
+Implemented the book's engine exactly as written (src/01_knowledge_base.py) and
+enumerated its entire output space over a realistic adult input grid: ages 18 to
+80, two sexes, three activity levels, so 378 distinct user types.
+
+    distinct diet prescriptions                    6
+    distinct activity / sleep / water prescriptions 1
+    distinct full recommendations                  14
+    compression (outputs / inputs)                 0.037
+    share of the input grid with a defined
+      calorie target                               19.0%
+
+Two things stand out. First, the activity, sleep and water targets are a single
+constant across all 378 user types: every adult is told 30 minutes on 5 days,
+7 to 8 hours of sleep, 6 to 8 cups of water. Second, the calorie rule is defined
+for only 19 percent of the grid, because the book gives the 18-to-35 band and
+then writes "[Continue pattern for other age ranges...]". The deployed engine is
+literally undefined for four fifths of its own input space.
+
+THE COMPARISON THAT MATTERS.
+The fabricated Kaggle dataset from the previous paper contained 16 distinct
+recommendations for 80,000 people. Dr. Anderson's expert-authored engine contains
+14 distinct recommendations for the entire adult population.
+
+Structurally these are the same object: a small lookup table keyed on a few
+demographic variables. The difference is provenance, not architecture. The book's
+14 are traceable to Canadian and WHO guidelines and are safe. The dataset's 16
+were invented. But neither adapts to anything a person does.
+
+DECISION.
+Open the paper with this. It is a far stronger motivation than criticizing an
+anonymous Kaggle upload, because it shows that the lookup-table pattern is not a
+symptom of bad data hygiene. It is what careful, well-intentioned, guideline-
+faithful design produces by default, because population guidelines are written
+for populations. The gap between a guideline and a recommendation for one person
+is the research problem.
+
+I want to be careful and fair here, and the paper must be too. This is not a
+criticism of the book. The book is doing exactly what a book can do. The point is
+that an application has information a book never had: what this specific person
+actually did yesterday, last week, and last month. The question is whether that
+information is worth anything, and that is an empirical question we can answer.
+
+RATIONALE.
+It also protects the paper from an obvious referee objection. If we only compared
+against a strawman we would be accused of knocking down a dataset nobody defends.
+Comparing against a real expert system authored by the second author is a much
+harder test and a more honest one.
+
+NEXT.
+Await the dataset agents, then quantify whether logged behaviour carries signal
+that these 14 outputs cannot capture.
+
+--------------------------------------------------------------------------------
+ENTRY 006  |  2026-08-10  |  The privacy section is not an appendix, it is a result
+--------------------------------------------------------------------------------
+
+OBSERVED.
+The paper needs a closing section on how an application would obtain the data
+that L2, L3 and L4 require, with full user permission and without treating
+people's health records carelessly. The obvious way to write that section is as
+boilerplate: a paragraph about consent, a paragraph about encryption, a nod to
+privacy legislation, and nothing measured.
+
+That would be a waste, because the personalization ladder already answers the
+question quantitatively.
+
+THE INSIGHT.
+Each rung of the ladder costs more personal data than the one below it.
+
+    L0  nothing at all
+    L1  age, sex, a self-reported activity level         (one onboarding form)
+    L2  height, weight, waist, health conditions          (body measurements and
+                                                           medical disclosure)
+    L3  a daily behaviour log over weeks                  (continuous self-report
+                                                           or a wearable)
+    L4  within-day context, timing, location, mood        (passive, continuous,
+                                                           the most intrusive)
+
+So measuring the benefit at each rung is simultaneously measuring the privacy
+cost of that benefit. The ladder is a privacy-utility curve. If most of the
+achievable gain arrives at L3 and L4 adds little, then the honest engineering
+recommendation is to stop at L3 and never collect the intrusive context data at
+all. That is a stronger privacy statement than any policy paragraph, because it
+is an argument from evidence that the data is not needed.
+
+DECISION.
+Write the final section as "What to collect, and what not to", built on the
+measured curve, and structure it around data minimization as a testable
+principle rather than a slogan. It will cover:
+
+  1. The measured curve. Benefit per rung against what each rung requires a
+     person to disclose. Name explicitly any feature that our experiments show
+     does not earn its place, and recommend not collecting it.
+  2. Consent that is specific and revocable. Purpose-bound per data category,
+     not a single blanket agreement at signup, with the app degrading to a lower
+     rung rather than breaking when a person declines or withdraws.
+  3. Where the computation happens. Which parts of the ladder can be computed on
+     the user's own device, so that raw logs never leave it, and which genuinely
+     need a server.
+  4. Storage and access. Row-level security so a row is readable only by the
+     person it belongs to, encryption in transit and at rest, and separation of
+     identifiers from health measurements.
+  5. Retention and deletion, including what happens to a trained model when a
+     person withdraws.
+  6. The legal and ethical frame. The authors are in British Columbia, so PIPEDA
+     and BC PIPA govern the application, and any study conducted on app users
+     would fall under TCPS 2 and require research ethics board approval at
+     Thompson Rivers University. GDPR matters if the app has users in Europe.
+     State plainly that the current paper uses only public, de-identified,
+     secondary data and required no ethics review, and that deploying the
+     recommender to real users would.
+  7. The limits of the recommender. It advises on behaviour; it does not
+     diagnose. The book's referral triggers are the boundary, and the section
+     will say where the app must stop and hand over to a clinician.
+
+RATIONALE.
+This is the section Dr. Anderson most needs, because he cannot ship the feature
+without answering it, and it is the section a reviewer will look for hardest in
+any health recommendation paper. Making it evidence-based rather than
+aspirational is the difference between a paper that describes a system and a
+paper that justifies one.
+
+NEXT.
+Nothing to do until the experiments produce the curve. Recorded now so the
+experiment design deliberately measures benefit per rung in a way that supports
+this section, rather than having to reconstruct it afterwards.
+
+--------------------------------------------------------------------------------
+ENTRY 007  |  2026-08-10  |  Longitudinal data inventory, and a fabricated dataset
+                             our own screen failed to catch
+--------------------------------------------------------------------------------
+
+OBSERVED.
+Twelve candidate longitudinal datasets were downloaded and measured. Six are
+usable, six are not. The full report is at recon/datasets_longitudinal.md.
+
+THE BACKBONE IS LIFESNAPS.
+    71 people, median 88 days each, max 244, spanning 290 days
+    behaviour, sleep, heart rate, HRV and SpO2
+    SEMA momentary self-report on 2,290 person-days across 63 people
+    validated psychometrics: PANAS, STAI, TTM, BREQ, Big Five
+    an explicit adherence target: step_goal on 1,725 person-days, 59 people,
+      hit rate 0.473, varying within 50 of the 71
+It is the only dataset that is simultaneously multi-person, long, multi-modal,
+and carries a real adherence signal. fitbit_mobius (33 people, 31 days, clean)
+becomes the independent replication set.
+
+A PRELIMINARY LADDER RESULT ALREADY APPEARS.
+Forward-chaining prediction of next-day steps on LifeSnaps:
+    L0, population mean            R2 = -0.019
+    person's own mean              R2 =  0.262
+    ridge on the person's history  R2 =  0.309
+The population constant is worse than useless: a negative R2 means predicting
+the population average beats nothing and loses to simply remembering what this
+person usually does. On fitbit_mobius the person's own mean reaches R2 = 0.385.
+This is the ladder's central claim appearing in the very first measurement, and
+it needs to be re-derived carefully rather than accepted on one pass.
+
+THE IMPORTANT METHODOLOGICAL FINDING.
+whoop100k is fabricated. The evidence is overwhelming: exactly 100,000 rows
+(286 users x ~350 days), every user starting 2023-01-01 with perfectly
+contiguous calendars and zero absent days, sleep_performance constant at 100.0
+for every row, workout_completed an exact function of activity_type, and nine
+columns constant within every user.
+
+But the decisive evidence is temporal, and this matters enormously to us:
+    per-person lag-1 autocorrelation
+      whoop100k resting HR   0.044      HRV   0.054
+      LifeSnaps resting HR   0.850
+      depresjon activity     0.896
+A physiological state variable cannot be serially independent. Your resting
+heart rate tomorrow is close to your resting heart rate today. In whoop100k it
+is not, because each row was drawn independently. Out of sample, a person's own
+history predicts their future strain at R2 = -0.003, versus +0.262 on LifeSnaps
+and +0.385 on fitbit_mobius. There are no individuals in that file, only rows
+wearing user IDs.
+
+NOW THE UNCOMFORTABLE PART, AND IT IS A GENUINE CONTRIBUTION.
+Our own fabrication screen, the one from the previous paper, did NOT catch this.
+It returned REDUNDANT COLUMNS, a benign verdict. The screen tests whether a
+target is an exact function of one other column, which is a cross-sectional
+test. It has no concept of a person or of time, so a file can pass it while
+containing no real individuals at all.
+
+DECISION.
+Extend the screen with a temporal integrity test and report it as a contribution
+of this paper: for panel data, check whether per-person lag-1 autocorrelation of
+physiological and behavioural state variables is distinguishable from zero, and
+whether a person's own history predicts their future better than the population
+mean does. Both are cheap, both are interpretable, and both would have caught
+whoop100k immediately.
+
+RATIONALE.
+This is exactly the kind of finding that justifies the earlier work rather than
+discarding it. The previous paper measured how often a cross-sectional screen
+fires and found it about half precise. Here we find a fabricated dataset that
+the same screen structurally cannot detect. That is an honest limitation of our
+own prior method, discovered by us, and the fix is small and general.
+
+TWO FURTHER DATA-INTEGRITY FINDINGS.
+1. psykose is not an independent dataset. I verified this myself rather than
+   taking the agent's word: 54 files are byte-identical between psykose and
+   depresjon (168 distinct hashes in depresjon, 57 in psykose, 54 shared).
+   Using both would silently double-count 54 subjects. Excluded.
+2. The non-wear trap is real and differs by dataset, so it cannot be handled by
+   one rule. In LifeSnaps 2,633 of 7,410 person-days (35.5%) have missing steps,
+   and 2,256 of those report exactly 1440 sedentary minutes: non-wear surfaces
+   as NaN, not zero, and only 86 days are literal zero-step days. In
+   fitbit_mobius the opposite convention holds: 77 zero-step days, 72 of them
+   with 1440 sedentary minutes, so there non-wear surfaces as a zero. Calories
+   cannot be used to detect it because Fitbit emits basal metabolic rate on
+   non-wear days (median 1,841 against 2,220 on worn days).
+   Any analysis that treats these as real zeros will conclude that people are
+   far more sedentary than they are. Filtering rule: drop person-days with
+   sedentary_minutes == 1440 or missing steps, which retains 850 of 940 days in
+   fitbit_mobius.
+
+HOUSEKEEPING.
+Deleted a 1.95 GB junk artifact (datasets/fitbit_mobius/_AGG_fitbit_mobius.csv)
+left by the interrupted first pass: a blind concatenation of nineteen
+incompatible schemas, fusing daily, hourly and minute-level columns into one
+frame. Verified it was meaningless and unreferenced by any script before
+removing. The datasets directory is now 2.0 GB.
+
+NEXT.
+Await the cross-sectional report, then fix the experiment design. The temporal
+integrity test is now an experiment in its own right.
+
+--------------------------------------------------------------------------------
+ENTRY 009  |  2026-08-10  |  E2 complete, after two failed detectors taught us
+                             something worth reporting
+--------------------------------------------------------------------------------
+
+OBSERVED, FIRST RUN.
+The battery ran but produced two wrong answers, and both were instructive.
+
+  1. D3 (temporal) returned lag-1 autocorrelation 1.0 for whoop100k, the
+     fabricated dataset, when the truth is near zero. Cause: D3 took the maximum
+     across candidate state variables, and weight_kg is stored as a constant
+     repeated down every row of a person. A constant series has autocorrelation
+     1.0, so a static attribute masked the dynamic ones entirely.
+  2. D3 flagged fitbit_mobius, a REAL dataset, as fabricated. Cause: that file
+     contains no physiological state variable at all, only behaviour. Day-to-day
+     step counts are genuinely noisy in real people, so testing behaviour for
+     persistence penalises honest data.
+  3. D2 (signal) flagged LifeSnaps, also real, because it auto-selected a single
+     target column that happened to be genuinely unpredictable.
+
+DECISION AND FIX.
+  D3 now applies only to physiological state variables, never behaviour, and
+  requires at least ten distinct values within a person before a variable
+  qualifies. If no qualifying variable exists the detector declares itself NOT
+  APPLICABLE rather than flagging. This matters conceptually: a detector that
+  cannot run must say so, not guess.
+  D2 now tries up to eight plausible targets and keeps the best. The claim
+  "nothing in this dataset predicts anything" is only credible if no candidate
+  target works, not if one arbitrary column fails.
+
+RESULT AFTER THE FIX.
+  fabricated datasets                   5
+  caught by D1 alone (published screen) 1
+  caught by the full battery            5
+  false alarms on real datasets         0 of 4
+
+  dataset                truth        D1  D2  D3  D4   caught by
+  fitness_wellness_plan  FABRICATED    X   .   .   .   D1
+  diet_rec_medical       FABRICATED    .   X   .   .   D2
+  fitness365             FABRICATED    .   X   X   .   D2, D3
+  fitlife                FABRICATED    .   .   X   X   D3, D4
+  whoop100k              FABRICATED    .   .   X   .   D3
+  lifesnaps              REAL          .   .   .   .   none
+  fitbit_mobius          REAL          .   .   .   .   none
+  smoking_body           REAL          .   .   .   .   none
+  cardio_train           REAL          .   .   .   .   none
+
+  The separating evidence:
+    best grouped-CV AUC   lifesnaps 0.7996, smoking_body 0.8373,
+                          cardio_train 0.8031, against
+                          diet_rec_medical 0.5095 and fitness365 0.5272
+    lag-1 autocorrelation lifesnaps 0.8618, against
+                          whoop100k 0.1175, fitness365 -0.0111, fitlife -0.0267
+    BMI recomputation     fitlife disagrees with its own height and weight in
+                          95.37 percent of rows
+
+INTERPRETATION.
+Each detector catches a different dataset, and no single detector catches more
+than three of five. That is the finding: fabrication is not one phenomenon, and a
+single-question screen, including our own published one, will miss most of it.
+The four detectors are cheap, require no labels, and produced no false alarms on
+four real datasets.
+
+A NOTE ON HONESTY.
+D2 returns AUC 1.0 on whoop100k because that file contains a column exactly
+determined by another. D2 only flags LOW signal, so it does not fire there; D3
+catches it instead. I am recording this rather than tuning D2 to also flag
+suspiciously high signal, because a high AUC is not by itself evidence of
+fabrication, and a detector that fires on both extremes would be untestable.
+
+NEXT.
+E3 (L1 versus L2 on NHANES, design-weighted) and E4 (between versus within
+person variance on LifeSnaps).
+
+--------------------------------------------------------------------------------
+ENTRY 010  |  2026-08-10  |  E3 and E4: bodies are stable, behaviour is not
+--------------------------------------------------------------------------------
+
+E3, NHANES 2013-2014, design-weighted with WTMEC2YR, jackknife CIs over the
+15 strata x 2 PSU design. 6,113 adults, 5,587 with a measured waist. Median
+weekly moderate-equivalent activity 150 minutes, with 33.1 percent reporting
+none at all.
+
+  Weighted R2                             BODY (WHtR)   BEHAVIOUR (weekly MVPA)
+    L1   age + sex                            0.0791            0.0737
+    L1+  + ethnicity + education + income     0.1047            0.0798
+    L2   + BMI                                0.8947            0.0737
+    L2+  + waist                                  -             0.0748
+    L2++ + waist-to-height + blood pressure       -             0.0752
+
+  Predicting who meets the activity guideline (cross-validated AUC)
+    L1   age + sex                            0.6686
+    L2   + BMI                                0.6686
+    L2+  + waist                              0.6637
+    L2++ + waist-to-height + BP               0.6657
+    waist-to-height alone                     0.5868
+    BMI alone                                 0.5366
+    age alone                                 0.6497
+
+THE RESULT.
+Adding body measurements to age and sex improves prediction of the BODY enormously,
+from 0.079 to 0.895, and improves prediction of BEHAVIOUR by nothing at all. The
+MVPA R2 is 0.0737 with and without BMI, identical to four decimal places. The
+adherence AUC is 0.6686 with and without BMI, also identical, and adding waist
+makes it slightly WORSE (0.6637).
+
+This is climbing from L1 to L2, the single most obvious improvement a developer
+would make, and for behaviour it buys precisely nothing.
+
+It also replicates the earlier project's NHANES 2021-2023 finding on a different
+cycle collected years apart, with the same ordering: waist-to-height (0.5868)
+beats BMI (0.5366) as a single predictor. Age alone (0.6497) beats both, which is
+new and worth reporting.
+
+A CIRCULARITY I CAUGHT AND FIXED.
+The first run reported R2 = 0.9464 for predicting waist-to-height ratio from a
+set containing waist. Waist-to-height IS waist divided by height, so that number
+measures arithmetic, not explanation. Added a component guard that excludes any
+predictor set containing a component of the target, and re-ran. Recording it
+because it is exactly the sort of thing that survives into print if nobody
+re-reads their own output.
+
+--------------------------------------------------------------------------------
+
+E4, LifeSnaps, one-way random-effects ICC with a cluster bootstrap over people.
+
+NON-WEAR FILTER FIRST. Of 7,410 person-days, 2,633 have a missing step count and
+2,329 report exactly 1440 sedentary minutes, with 2,256 showing both. Only 86 are
+literal zero-step days. Removing non-wear costs 2,706 rows (36.5 percent) and
+leaves 4,704 days across all 71 people. Had these been treated as real zeros the
+dataset would have appeared to contain a third more totally sedentary days than
+it does.
+
+  Intraclass correlation, the share of variance BETWEEN people
+    minutesAsleep              0.202
+    very_active_minutes        0.226
+    moderately_active_minutes  0.232
+    steps                      0.288
+    sedentary_minutes          0.408
+    calories                   0.571
+    ---
+    stress_score               0.265
+    spo2                       0.324
+    nightly_temperature        0.438
+    rmssd                      0.708
+    sleep_efficiency           0.785
+    resting_hr                 0.866
+
+    median ICC, behaviour   0.260
+    median ICC, physiology  0.573
+
+THE RESULT, AND IT IS THE SPINE OF THE PAPER.
+Bodies are stable. Behaviour is not.
+
+Resting heart rate is 87 percent a property of the person. Steps are 29 percent a
+property of the person and 71 percent a property of the day. So a static profile,
+no matter how much it knows, is mathematically capped at about a quarter of the
+variance in what somebody actually does.
+
+This explains E3 rather than merely accompanying it. Demographics and
+anthropometrics predict the body well because the body is a stable person-level
+trait. They predict behaviour badly because behaviour mostly is not a person-level
+trait at all. The two experiments are the same finding seen from two directions,
+one cross-sectional in a national survey of 6,113 adults, one longitudinal in 71
+people wearing trackers.
+
+AN HONEST NEGATIVE INSIDE E4.
+My crude history features did NOT beat the person mean for behaviour in sample:
+steps went 0.294 for the person mean, 0.310 adding day of week, but 0.226 for a
+naive equal blend with yesterday and 0.246 for a trailing seven-day mean. I am
+recording this as a limitation of the feature, not a finding about history,
+because during acquisition a properly fitted ridge on a person's own history
+reached 0.309 out of sample against 0.262 for the person mean. The lesson is that
+history helps only when its weighting is learned rather than assumed, and E5 must
+fit it rather than hardcode it.
+
+For physiology the same crude lag-1 feature DOES help immediately: resting heart
+rate goes from 0.866 to 0.948. Yesterday's resting heart rate is nearly all of
+today's.
+
+NEXT.
+E5 fits the full ladder properly out of sample with forward chaining. E4 has
+already told us what E5 must find: a ceiling near 0.26 for anything static, and
+whatever lies above it has to come from day-level information.
+
+--------------------------------------------------------------------------------
+ENTRY 011  |  2026-08-10  |  E5, E6, E7: the ladder measured end to end
+--------------------------------------------------------------------------------
+
+E5, NEXT-DAY BEHAVIOUR. Forward-chained, strictly causal features, two model
+families, two datasets.
+
+  LifeSnaps, next-day steps (4,493 person-days, 70 people)
+                                    ridge      gbm      MAE (steps)
+    L0 population constant        -0.0131  -0.0131          4,122
+    L1 demographics (the book)    -0.0173  -0.0188          4,133
+    L2 + body measurements        -0.0168  -0.0525          4,133
+    L3 + own behaviour history    +0.2261  +0.1584          3,457
+    L4 + yesterday's context      +0.2292  +0.1742          3,454
+
+    gain L1 to L2 (body)          +0.0004
+    gain L2 to L3 (logs)          +0.2429
+    gain L3 to L4 (sensing)       +0.0032
+
+  Replicated on very_active_minutes (L0 -0.013 to L3 +0.204) and independently on
+  fitbit_mobius, a different cohort with no demographics at all (steps L0 -0.004
+  to L3 +0.340; active minutes L0 -0.009 to L3 +0.401). The ordering is identical
+  under ridge and gradient boosting, so the result is about the information
+  available, not about the model.
+
+  L0, L1 and L2 all have NEGATIVE R2. That is not a rounding artifact. It means
+  the population constant, the book's demographic engine, and the same engine
+  with body measurements added, are all worse than useless for anticipating what
+  a person will do tomorrow: you would do better predicting the person's own
+  average than any of them.
+
+E6, ADHERENCE. LifeSnaps step-goal attainment, 1,392 person-days, 51 people,
+39 of whom vary.
+
+    L0 base rate                  AUC 0.5000   Brier 0.1584
+    L1 demographics               AUC 0.5841   Brier 0.1568
+    L2 + body measurements        AUC 0.6041   Brier 0.1554
+    L2g + the goal itself         AUC 0.6248   Brier 0.1537
+    L3 + own behaviour history    AUC 0.7007   Brier 0.1475
+    L3a + own adherence history   AUC 0.7465   Brier 0.1376
+    L4 + yesterday's context      AUC 0.7263   Brier 0.1395
+
+  The best predictor of whether somebody hits their goal tomorrow is whether they
+  have been hitting it lately. Note that L4 makes it WORSE on both metrics, which
+  is the first direct evidence that the most intrusive data layer is not merely
+  unhelpful but actively harmful at this sample size.
+
+  A DATA LIMITATION I HAD TO RESOLVE AND AM DECLARING. LifeSnaps stores step_goal
+  binned, as the upper edge of a range with a label such as "10000-14999", plus a
+  literal NO_GOAL category. The exact goal each participant set is not
+  recoverable. I used the LOWER bound of the band, on the reasoning that somebody
+  in the 10000-14999 band had a goal of at least 10000 and that Fitbit's default
+  is exactly 10000. Using the upper edge would impose a stricter target than the
+  person chose. This raises the measured base hit rate to 0.773; under the upper
+  edge it would be far lower. The choice is declared because it materially moves
+  the number, and the paper must say so.
+
+E7, COLD START AND THE PRIVACY CURVE. Leave-one-person-out, so the model has
+never seen the test person: this is literally a new signup.
+
+  A NEW USER
+    L0 population constant        -0.0099
+    L1 demographics (the book)    -0.0198
+    L2 + body measurements        -0.0255
+    L3 + own behaviour history    +0.2749
+    L4 + yesterday's context      +0.2692
+
+  AS THEIR OWN HISTORY ACCUMULATES (R2 for L3)
+    0 days      -0.093
+    1-2 days    +0.061
+    3-6 days    +0.146
+    7-13 days   +0.239
+    14-27 days  +0.308      <- peak
+    28-55 days  +0.290
+    56+ days    +0.260
+
+  Personalization switches on almost immediately. Two days of logging already
+  beats every static rung. One week gets most of the way. The peak is at two to
+  four weeks. The mild decline after that is worth flagging honestly: it may be
+  behavioural drift over a long study, or it may be that people who log for
+  eight weeks are a different and harder subset. We cannot separate those with
+  71 people and should not pretend otherwise.
+
+  THE PRIVACY-UTILITY CURVE, which is the closing section of the paper
+    rung   R2        marginal   what the user must disclose
+    L0     -0.0099        --    nothing
+    L1     -0.0198    -0.0099   age and sex, once at signup
+    L2     -0.0255    -0.0057   height, weight, waist
+    L3     +0.2749    +0.3004   a daily activity log, ongoing
+    L4     +0.2692    -0.0057   mood and location, passively and continuously
+
+  Three of the four marginal gains are NEGATIVE. The only rung that pays is the
+  behaviour log. The most intrusive rung, continuous passive sensing of mood and
+  location, costs the most privacy and returns less than nothing.
+
+  This is the data-minimization argument in its strongest form: do not collect
+  it, because it does not help.
+
+AN IMPORTANT QUALIFICATION I MUST NOT LET THE PAPER OVERSTATE.
+"Demographics do not help" is a statement about PREDICTING BEHAVIOUR. It is not a
+statement that an app should stop collecting age and sex. Age determines the
+heart-rate zones, the screening questions, and several contraindications in the
+book's own safety rules. Sex and age drive the food-group targets. Those are
+SAFETY and DOSING functions, and they are exactly where expert knowledge belongs.
+The finding is narrower and sharper than "demographics are useless": demographics
+tell you what is SAFE and APPROPRIATE for someone, and tell you almost nothing
+about what they will actually DO. A recommender needs both, from different
+sources. The paper must make this distinction explicitly or it will be read as
+advocating that a health app discard the very variables its safety layer runs on.
+
+NEXT.
+Figures, then the paper.
+
+--------------------------------------------------------------------------------
+ENTRY 012  |  2026-08-10  |  We were scooped on the taxonomy, and the paper has to say so
+--------------------------------------------------------------------------------
+
+OBSERVED.
+I claimed the personalization ladder as a contribution. I asked an agent to try
+hard to disprove that, with explicit instructions to give an honest answer rather
+than a reassuring one. It found prior work.
+
+Abbasian and Jain, "Personal Care Utility", arXiv:2510.22602, posted 26 October
+2025, contains a Table 1 captioned "Levels of personalization" defining a
+six-rung ladder modelled on the SAE levels of driving automation. The
+correspondence is close:
+
+    theirs L0 generic broadcast          = our L0 population constant
+    theirs L1 demographic (age/gender)   = our L1, effectively verbatim,
+                                           including the exemplar variables
+    theirs L2 behavioural tailoring      = our L3 own behaviour history
+    theirs L3 + L4 situational and state = our L4 context
+    theirs L5 co-regulated companionship = out of our scope
+    (no counterpart)                     = our L2 anthropometrics
+
+The idea also has older ancestors: the mass, targeted, tailored trichotomy from
+health communication (Kreuter 1999; Hawkins 2008), a weak versus strong
+personalization depth axis (Oinas-Kukkonen 2022), an ordinal weak / intermediate
+/ strong-adaptive coding of 61 digital mental health systems (Matthews and
+Rhodes-Maquaire 2025), and a static / dynamic / hybrid cut (Alslaity 2023).
+
+DECISION.
+Change the framing. We do not propose the ladder; we measure it. The paper will
+state the prior work plainly in Related Work, including the arXiv preprint, and
+reposition the contribution as the missing empirical ordering.
+
+RATIONALE.
+This is not a close call. A reviewer who finds that preprint and sees us claiming
+the structure as new would be entitled to reject on that basis alone, and would
+be right to. Finding it ourselves and citing it costs us a sentence of ambition
+and buys the paper its credibility. It is also simply true, which settles it.
+
+What survives is stronger than what we lose. Nobody has scored the marginal
+predictive value of each personalization layer in one study, on one cohort, with
+one metric. Three independent sources say so in their own words: ten Klooster
+(2024) writes that effectiveness conclusions are impossible "because all the
+forms are put together"; Matthews (2025) reports the trials reviewed "lacked a
+non-personalised intervention, making it difficult to determine the added value";
+and Abbasian and Jain disclaim their own table as "not prescriptive but
+illustrative", with no data, model, or validation behind it.
+
+A COUNTER-ARGUMENT WE MUST PRE-EMPT.
+Hawkins (2008) explicitly rejects discrete levels in favour of continua. A
+reviewer from health communication will raise this. Our answer is defensible and
+must be written into the paper rather than left implicit: our rungs are cut by
+the AVAILABILITY OF AN INPUT CLASS, which is a binary engineering fact about a
+deployment, not by degree of audience segmentation, which is a continuum. Whether
+a system holds the user's own logged history is a yes or no question.
+
+TWO MORE CORRECTIONS FORCED BY THE SAME PASS.
+
+1. Prior work on next-day activity prediction DOES exist. My earlier statement
+   that it did not was wrong. Abdulghani et al. (Bioengineering 2026) predict
+   next-day steps in 3-hour segments at MAE 981 and report no R2 at all. Fellger
+   et al. (IEEE JTEHM 2020) reach NRMSE 9.11% and r = 0.89, but for active
+   minutes, and pooled leave-one-out across 44 participants, which inflates the
+   apparent fit with between-person variance: exactly the record-wise design
+   Saeb (2017) warns against and exactly the error our grouped splits avoid.
+   No peer-reviewed paper reports a within-person out-of-sample R2 for next-day
+   step count. Our +0.23 therefore cannot be honestly benchmarked, and the paper
+   will say that rather than implying it is a record.
+
+2. Adams et al. (2017) found STATIC goals outperformed adaptive goals on steps
+   (+2,630 versus +2,149 per day). This cuts against the spirit of our result and
+   must be cited. Our claim is about PREDICTION, not efficacy: predicting
+   behaviour better does not automatically produce better behaviour change. That
+   distinction belongs in the limitations, stated by us rather than discovered by
+   a reviewer.
+
+ALSO NOTED.
+There is no JITAI taxonomy ranking tailoring variables by depth. Nahum-Shani
+supports only a baseline versus time-varying distinction, so we must not
+overclaim it as a levels framework.
+
+NEXT.
+Rewrite the abstract, introduction, related work, and limitations. Then the two
+review passes.
+
+--------------------------------------------------------------------------------
+ENTRY 013  |  2026-08-10  |  The citation review, and the worst error in the paper
+--------------------------------------------------------------------------------
+
+OBSERVED.
+A reviewer agent checked every citation against the work it was attached to.
+Bibliography metadata came back clean: all 84 DOIs resolve to the right work, no
+wrong years, venues, volumes, pages or authors, no duplicates, no preprint
+passed off as peer reviewed. The claims attached to them did not fare as well.
+Ten citations were classified UNSUPPORTED. Verdict: do not submit.
+
+THE WORST ONE, AND IT WAS IN OUR OWN HONESTY PARAGRAPH.
+I wrote, in Limitations, that "in a twelve-month trial, adaptive goals derived
+from a participant's own recent history were outperformed on daily steps by
+static goals". Every part of that is wrong or misleading:
+  - it is a FOUR-month trial, n = 96, not twelve months
+  - the 2,630 versus 2,149 gap is NOT SIGNIFICANT (p = 0.095) and I did not say so
+  - the trial's own stated conclusion is the OPPOSITE: "Adaptive goals
+    outperformed static goals over a 4-month period", because the adaptive arm
+    decayed at less than half the rate
+  - the twelve-month trial I was half-remembering is a different paper by the
+    same group, and it also favours adaptive goals
+
+So the single concession I wrote against my own thesis, the paragraph designed to
+show intellectual honesty, inverted its source. It is refuted by an open-access
+abstract in under five minutes. That is worse than having no concession at all,
+and it is the kind of error that destroys a reviewer's trust in everything else.
+
+THE SECOND WORST.
+I accused Fellger et al. of a record-wise evaluation design while arguing that
+evaluation design matters. Their Methods say verbatim that they "excluded all
+periods from training that were collected from the same participant", which is
+subject-wise, the design Saeb recommends. My criticism of their POOLED METRICS is
+correct and sufficient on its own; the design accusation was not. Being wrong
+about another group's methods in a paper about methodological care is
+self-refuting, and a reviewer could plausibly be one of their five co-authors.
+
+THE THIRD.
+Two of the three citations I used to justify forward chaining argue AGAINST it.
+Bergmeir and Benitez recommend blocked cross-validation over reserving the end of
+a series; Bergmeir, Hyndman and Koo show k-fold performs favourably compared with
+out-of-sample evaluation for autoregressive models. I had cited them as support
+for the protocol they qualify.
+
+A PATTERN WORTH RECORDING.
+Five of the ten sit in Related Work. The reviewer's diagnosis is exact: that
+section read as though citations were selected by topic and then attached to
+whichever sentence needed a bracket, rather than read and matched to the claim.
+A five-page vision paper was called a recent survey; one author group was
+credited with another's taxonomy; a paper arguing for continua was called a
+staged grading. Individually small, collectively fatal to the section's
+authority.
+
+AND TWO THINGS CITED NOWHERE.
+Our own prior screen, which the whole of Section IV is built on, was referred to
+four times and never cited. The book that Section III audits was never cited
+either. Both are now in the bibliography and labelled as unpublished.
+
+DECISION AND ACTION.
+All ten rewritten. Two of the fixes made the paper better rather than merely
+correct:
+  - The Adams sentence is stronger accurate than it was wrong. Reporting the
+    non-significance, the decay difference, and the authors' own conclusion is a
+    more credible limitation than the false one I had.
+  - The 2019 Canadian food guide could not certify the engine's age-and-sex
+    serving table because that document ABOLISHED per-demographic serving counts.
+    Cited correctly it becomes evidence FOR the paper's thesis: national dietary
+    guidance abandoned demographic serving tables for the same reason we measure.
+    I was throwing away an on-thesis point by citing it wrongly.
+
+I also added regression guards to the verification script: the three corrected
+sentences are now asserted, and the three wrong ones are banned by exact string,
+so no later edit can silently reintroduce them. 91 of 91 checks pass.
+
+WHAT I TAKE FROM THIS.
+Every number in this paper was verified by machine and every one was right. The
+errors were all in prose ABOUT sources, which no numeric check can catch. The
+lesson is that a claim-to-source review is not optional polish; it is the only
+thing that catches this class of error, and it caught a paper-destroying one.
